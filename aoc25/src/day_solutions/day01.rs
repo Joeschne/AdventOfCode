@@ -17,6 +17,32 @@ pub(crate) fn solve_part_1(input: String) {
     println!("{zeros_found}");
 }
 
+pub(crate) fn solve_part_2(input: String) {
+    let mut zeros_found = 0;
+    let mut current_position = 50;
+
+    input.lines().for_each(|l| {
+        let mut c = l.chars();
+        let go_right = c.next() == Some('R');
+        let amount: usize = c.collect::<String>().parse().expect("Should be a number");
+        current_position = if go_right {
+            zeros_found += (current_position + amount) / 100;
+            (current_position + amount) % 100
+        } else {
+            // directly on zero, only full circles
+            if current_position == 0 {
+                zeros_found += amount / 100;
+            } else if amount >= current_position {
+                // at least one passed, rest full circles
+                zeros_found += 1 + (amount - current_position) / 100;
+            }
+            (current_position + 100 - (amount % 100)) % 100
+        }
+    });
+
+    println!("{zeros_found}");
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -35,5 +61,10 @@ L82";
     #[test]
     fn test_day_1() {
         solve_part_1(TEST_INPUT.to_string());
+    }
+
+    #[test]
+    fn test_day_2() {
+        solve_part_2(TEST_INPUT.to_string());
     }
 }
