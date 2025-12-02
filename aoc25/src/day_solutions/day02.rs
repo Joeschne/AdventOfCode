@@ -1,13 +1,7 @@
 pub(crate) fn solve_part_1(input: String) {
     let mut invalid_ids = Vec::new();
 
-    let ranges = input.split(',').map(|range| {
-        let mut bounds = range.split('-');
-        (
-            bounds.next().expect("lower bound"),
-            bounds.next().expect("upper bound"),
-        )
-    });
+    let ranges = parse_ranges(&input);
 
     for range in ranges {
         let (lower, upper) = (
@@ -45,6 +39,64 @@ fn next_power_of_10(n: u64) -> u64 {
     10u64.pow((n as f64).log10().floor() as u32 + 1)
 }
 
+pub(crate) fn solve_part_2(input: String) {
+    let mut invalid_ids = Vec::new();
+
+    let ranges = parse_ranges(&input);
+
+    for range in ranges {
+        let (lower, upper) = (
+            range.0.parse::<u64>().expect("valid int"),
+            range.1.parse::<u64>().expect("valid int"),
+        );
+        for num in lower..=upper {
+            let s = num.to_string();
+            let len = s.len();
+
+            let mut is_repeating = false;
+            for pattern_len in 1..=len / 2 {
+                if len % pattern_len != 0 {
+                    continue;
+                }
+
+                let pattern = &s[..pattern_len];
+                let mut matches = true;
+
+                for start_index in (pattern_len..len).step_by(pattern_len) {
+                    if &s[start_index..start_index + pattern_len] != pattern {
+                        matches = false;
+                        break;
+                    }
+                }
+
+                if matches {
+                    is_repeating = true;
+                    break;
+                }
+            }
+
+            if is_repeating {
+                invalid_ids.push(num);
+            }
+        }
+    }
+
+    println!("{}", invalid_ids.iter().sum::<u64>());
+}
+
+fn parse_ranges(input: &str) -> Vec<(&str, &str)> {
+    input
+        .split(',')
+        .map(|range| {
+            let mut bounds = range.split('-');
+            (
+                bounds.next().expect("lower bound"),
+                bounds.next().expect("upper bound"),
+            )
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -54,5 +106,10 @@ mod tests {
     #[test]
     fn test_part_1() {
         solve_part_1(TEST_INPUT.to_string());
+    }
+
+    #[test]
+    fn test_part_2() {
+        solve_part_2(TEST_INPUT.to_string());
     }
 }
