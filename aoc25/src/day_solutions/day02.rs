@@ -1,38 +1,32 @@
 pub(crate) fn solve_part_1(input: String) {
-    let mut invalid_ids = Vec::new();
+    let mut invalid_id_sum = 0;
 
     let ranges = parse_ranges(&input);
 
     for range in ranges {
-        let (lower, upper) = (
-            range.0.parse::<u64>().expect("valid int"),
-            range.1.parse::<u64>().expect("valid int"),
-        );
+        let (lower, upper) = range;
         let mut current = lower;
         let mut same;
         while current <= upper {
-            same = true;
             let s = current.to_string();
             let len = s.len();
             if len % 2 != 0 {
-                current = next_power_of_10(current);
+                // skip to next even length
+                current = next_power_of_10(current) + 1;
                 continue;
-            }
-            let (left, right) = s.split_at(s.len() / 2);
-            for (left, right) in left.chars().zip(right.chars()) {
-                if left != right {
-                    same = false;
-                    break;
-                }
+            } else {
+                let (left, right) = s.split_at(len / 2);
+                // each char in both halves equal
+                same = left.chars().zip(right.chars()).all(|(l, r)| l == r);
             }
             if same {
-                invalid_ids.push(current);
+                invalid_id_sum += current;
             }
             current += 1;
         }
     }
 
-    println!("{}", invalid_ids.iter().sum::<u64>());
+    println!("{}", invalid_id_sum);
 }
 
 fn next_power_of_10(n: u64) -> u64 {
@@ -40,58 +34,54 @@ fn next_power_of_10(n: u64) -> u64 {
 }
 
 pub(crate) fn solve_part_2(input: String) {
-    let mut invalid_ids = Vec::new();
+    let start_time = std::time::Instant::now();
+    let mut invalid_id_sum = 0;
 
     let ranges = parse_ranges(&input);
 
     for range in ranges {
-        let (lower, upper) = (
-            range.0.parse::<u64>().expect("valid int"),
-            range.1.parse::<u64>().expect("valid int"),
-        );
+        let (lower, upper) = range;
         for num in lower..=upper {
             let s = num.to_string();
             let len = s.len();
 
-            let mut is_repeating = false;
-            for pattern_len in 1..=len / 2 {
+            let is_repeating = (1..=len / 2).any(|pattern_len| {
+                // pattern must divide length evenly
                 if len % pattern_len != 0 {
-                    continue;
+                    return false;
                 }
-
                 let pattern = &s[..pattern_len];
-                let mut matches = true;
-
-                for start_index in (pattern_len..len).step_by(pattern_len) {
-                    if &s[start_index..start_index + pattern_len] != pattern {
-                        matches = false;
-                        break;
-                    }
-                }
-
-                if matches {
-                    is_repeating = true;
-                    break;
-                }
-            }
+                (pattern_len..len)
+                    .step_by(pattern_len)
+                    .all(|start| &s[start..start + pattern_len] == pattern)
+            });
 
             if is_repeating {
-                invalid_ids.push(num);
+                invalid_id_sum += num;
             }
         }
     }
 
-    println!("{}", invalid_ids.iter().sum::<u64>());
+    println!("{}", invalid_id_sum);
+    println!("Execution time: {:?}", start_time.elapsed());
 }
 
-fn parse_ranges(input: &str) -> Vec<(&str, &str)> {
+fn parse_ranges(input: &str) -> Vec<(u64, u64)> {
     input
         .split(',')
         .map(|range| {
             let mut bounds = range.split('-');
             (
-                bounds.next().expect("lower bound"),
-                bounds.next().expect("upper bound"),
+                bounds
+                    .next()
+                    .expect("lower bound")
+                    .parse::<u64>()
+                    .expect("valid int"),
+                bounds
+                    .next()
+                    .expect("upper bound")
+                    .parse::<u64>()
+                    .expect("valid int"),
             )
         })
         .collect()
