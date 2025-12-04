@@ -1,7 +1,12 @@
 mod day01;
 mod day02;
 
-pub fn run_day_part(day: usize, part: u8, input: String) {
+pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
+    let start_time = if time_execution {
+        Some(std::time::Instant::now())
+    } else {
+        None
+    };
     match (day, part) {
         (1, 1) => day01::solve_part_1(input),
         (1, 2) => day01::solve_part_2(input),
@@ -11,5 +16,9 @@ pub fn run_day_part(day: usize, part: u8, input: String) {
             eprintln!("Day {} part {} is not (yet) implemented.", day, part);
             std::process::exit(1);
         }
+    }
+    if let Some(start) = start_time {
+        let duration = start.elapsed();
+        eprintln!("\nExecution time: {:?}", duration);
     }
 }

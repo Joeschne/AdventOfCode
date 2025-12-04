@@ -2,6 +2,7 @@ use aoc25::parser::Cli;
 use clap::Parser;
 
 fn main() {
+    println!();
     let cli = Cli::parse();
 
     let file_postfix = if cli.separate_input_files {
@@ -21,6 +22,10 @@ fn main() {
 
     eprintln!("Ho ho ho! It be the jolly season of codin'");
     eprintln!("Let's try day {} part {}", cli.day, cli.part);
+    if cli.time_execution {
+        eprintln!("Woouw. Let's see how fast this sled runs!");
+    }
+    eprintln!();
 
-    aoc25::day_solutions::run_day_part(cli.day, cli.part, input);
+    aoc25::day_solutions::run_day_part(cli.day, cli.part, input, cli.time_execution);
 }

@@ -13,4 +13,8 @@ pub struct Cli {
     /// Whether part 1 and 2 have different input files
     #[arg(short, long, default_value_t = false)]
     pub separate_input_files: bool,
+
+    /// Whether to time the execution
+    #[arg(short, long, default_value_t = false)]
+    pub time_execution: bool,
 }
