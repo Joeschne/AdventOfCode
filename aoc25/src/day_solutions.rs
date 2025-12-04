@@ -14,6 +14,7 @@ pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
         (2, 1) => day02::solve_part_1(input),
         (2, 2) => day02::solve_part_2(input),
         (3, 1) => day03::solve_part_1(input),
+        (3, 2) => day03::solve_part_2(input),
         _ => {
             eprintln!("Day {} part {} is not (yet) implemented.", day, part);
             std::process::exit(1);
