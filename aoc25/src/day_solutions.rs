@@ -2,6 +2,7 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 
 pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
     let start_time = if time_execution {
@@ -18,6 +19,8 @@ pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
         (3, 2) => day03::calculate_total_max_joltage_overclock(input),
         (4, 1) => day04::find_accessible_paper_stacks(input),
         (4, 2) => day04::remove_accessible_paper_stacks(input),
+        (5, 1) => day05::find_fresh_ingredients(input),
+        (5, 2) => day05::find_fresh_ingredient_ids(input),
         _ => {
             eprintln!("Day {} part {} is not (yet) implemented.", day, part);
             std::process::exit(1);
