@@ -1,4 +1,5 @@
-pub(crate) fn solve_part_1(input: String) {
+// part 1
+pub(crate) fn calculate_total_max_joltage(input: String) {
     let banks = parse_banks(&input);
     let mut total_joltage = 0;
     for mut bank in banks {
@@ -32,7 +33,8 @@ fn calculate_max_bank_joltage_two_batteries(mut bank: impl Iterator<Item = u32>)
     best_ten * 10 + best_one
 }
 
-pub(crate) fn solve_part_2(input: String) {
+// part 2
+pub(crate) fn calculate_total_max_joltage_overclock(input: String) {
     let banks = parse_banks(&input);
     let mut total_joltage = 0;
     for bank in banks {
@@ -95,11 +97,11 @@ mod tests {
 
     #[test]
     fn test_solve_part_1() {
-        solve_part_1(TEST_INPUT.to_string());
+        calculate_total_max_joltage(TEST_INPUT.to_string());
     }
 
     #[test]
     fn test_solve_part_2() {
-        solve_part_2(TEST_INPUT.to_string());
+        calculate_total_max_joltage_overclock(TEST_INPUT.to_string());
     }
 }

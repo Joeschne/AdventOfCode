@@ -10,14 +10,14 @@ pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
         None
     };
     match (day, part) {
-        (1, 1) => day01::solve_part_1(input),
-        (1, 2) => day01::solve_part_2(input),
-        (2, 1) => day02::solve_part_1(input),
-        (2, 2) => day02::solve_part_2(input),
-        (3, 1) => day03::solve_part_1(input),
-        (3, 2) => day03::solve_part_2(input),
-        (4, 1) => day04::solve_part_1(input),
-        (4, 2) => day04::solve_part_2(input),
+        (1, 1) => day01::find_door_password(input),
+        (1, 2) => day01::find_door_password_method_0x434C49434B(input),
+        (2, 1) => day02::find_invalid_gift_shop_ids(input),
+        (2, 2) => day02::find_more_invalid_ids(input),
+        (3, 1) => day03::calculate_total_max_joltage(input),
+        (3, 2) => day03::calculate_total_max_joltage_overclock(input),
+        (4, 1) => day04::find_accessible_paper_stacks(input),
+        (4, 2) => day04::remove_accessible_paper_stacks(input),
         _ => {
             eprintln!("Day {} part {} is not (yet) implemented.", day, part);
             std::process::exit(1);

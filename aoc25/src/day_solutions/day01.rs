@@ -1,4 +1,5 @@
-pub(crate) fn solve_part_1(input: String) {
+// part 1
+pub(crate) fn find_door_password(input: String) {
     let mut zeros_found = 0;
     let mut current_position = 50;
 
@@ -17,7 +18,9 @@ pub(crate) fn solve_part_1(input: String) {
     println!("{zeros_found}");
 }
 
-pub(crate) fn solve_part_2(input: String) {
+// part 2
+#[allow(non_snake_case)]
+pub(crate) fn find_door_password_method_0x434C49434B(input: String) {
     let mut zeros_found = 0;
     let mut current_position = 50;
 
@@ -60,11 +63,11 @@ L82";
 
     #[test]
     fn test_day_1() {
-        solve_part_1(TEST_INPUT.to_string());
+        find_door_password(TEST_INPUT.to_string());
     }
 
     #[test]
     fn test_day_2() {
-        solve_part_2(TEST_INPUT.to_string());
+        find_door_password_method_0x434C49434B(TEST_INPUT.to_string());
     }
 }

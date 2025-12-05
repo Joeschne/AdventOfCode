@@ -13,7 +13,8 @@ const DIRECTIONS: [(isize, isize); 8] = [
     (1, 1),
 ];
 
-pub(crate) fn solve_part_1(input: String) {
+// part 1
+pub(crate) fn find_accessible_paper_stacks(input: String) {
     let paper_map: Vec<Vec<bool>> = input
         .lines()
         .map(|l| { l.chars().map(|c| c == '@') }.collect())
@@ -42,7 +43,8 @@ pub(crate) fn solve_part_1(input: String) {
     println!("{accessible_stacks}");
 }
 
-pub(crate) fn solve_part_2(input: String) {
+// part 2
+pub(crate) fn remove_accessible_paper_stacks(input: String) {
     let paper_map: Vec<Vec<bool>> = input
         .lines()
         .map(|l| { l.chars().map(|c| c == '@') }.collect())
@@ -150,11 +152,11 @@ mod tests {
 
     #[test]
     fn test_part_1() {
-        solve_part_1(TEST_INPUT.to_string());
+        find_accessible_paper_stacks(TEST_INPUT.to_string());
     }
 
     #[test]
     fn test_part_2() {
-        solve_part_2(TEST_INPUT.to_string());
+        remove_accessible_paper_stacks(TEST_INPUT.to_string());
     }
 }

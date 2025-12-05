@@ -1,4 +1,5 @@
-pub(crate) fn solve_part_1(input: String) {
+// part 1
+pub(crate) fn find_invalid_gift_shop_ids(input: String) {
     let mut invalid_id_sum = 0;
 
     let ranges = parse_ranges(&input);
@@ -33,7 +34,8 @@ fn next_power_of_10(n: u64) -> u64 {
     10u64.pow((n as f64).log10().floor() as u32 + 1)
 }
 
-pub(crate) fn solve_part_2(input: String) {
+// part 2
+pub(crate) fn find_more_invalid_ids(input: String) {
     let start_time = std::time::Instant::now();
     let mut invalid_id_sum = 0;
 
@@ -95,11 +97,11 @@ mod tests {
 
     #[test]
     fn test_part_1() {
-        solve_part_1(TEST_INPUT.to_string());
+        find_invalid_gift_shop_ids(TEST_INPUT.to_string());
     }
 
     #[test]
     fn test_part_2() {
-        solve_part_2(TEST_INPUT.to_string());
+        find_more_invalid_ids(TEST_INPUT.to_string());
     }
 }
