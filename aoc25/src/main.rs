@@ -1,9 +1,23 @@
 use aoc25::parser::Cli;
 use clap::Parser;
 
+const DEBUG: bool = false;
+const DEBUG_DAY: usize = 4;
+const DEBUG_PART: u8 = 2;
+const DEBUG_SEPARATE_INPUT_FILES: bool = false;
+
 fn main() {
     println!();
-    let cli = Cli::parse();
+    let cli = if !DEBUG {
+        Cli::parse()
+    } else {
+        Cli {
+            day: DEBUG_DAY,
+            part: DEBUG_PART,
+            separate_input_files: DEBUG_SEPARATE_INPUT_FILES,
+            time_execution: false,
+        }
+    };
 
     let file_postfix = if cli.separate_input_files {
         format!("{}-{}", cli.day, cli.part)
