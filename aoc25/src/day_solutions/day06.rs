@@ -1,3 +1,5 @@
+use crate::helpers;
+
 pub(crate) fn solve_cephalopod_homework(input: String) {
     let mut rows: Vec<&str> = input.lines().collect();
     let sign_row = rows.pop().expect("non-empty input");
@@ -47,7 +49,7 @@ pub(crate) fn solve_cephalopod_homework_properly(input: String) {
     for column in 0..num_cols {
         let column_number = rows.iter().take(number_row_count).fold(0, |acc, &row| {
             if row[column].is_ascii_digit() {
-                acc * 10 + (row[column] - b'0') as u64
+                acc * 10 + helpers::ascii_to_digit(row[column]) as u64
             } else {
                 acc
             }

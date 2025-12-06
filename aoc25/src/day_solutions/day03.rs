@@ -1,3 +1,5 @@
+use crate::helpers;
+
 // part 1
 pub(crate) fn calculate_total_max_joltage(input: String) {
     let banks = parse_banks(&input);
@@ -83,7 +85,7 @@ fn calculate_max_bank_joltage<const BATTERY_COUNT: usize>(bank: Vec<u32>) -> u12
 fn parse_banks(input: &str) -> impl Iterator<Item = impl Iterator<Item = u32>> {
     input
         .lines()
-        .map(|l| l.chars().map(|c| c.to_digit(10).expect("valid digit")))
+        .map(|l| l.bytes().map(|c| helpers::ascii_to_digit(c as u8)))
 }
 
 #[cfg(test)]
