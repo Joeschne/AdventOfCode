@@ -18,7 +18,7 @@ pub(crate) fn find_invalid_gift_shop_ids(input: String) {
             } else {
                 let (left, right) = s.split_at(len / 2);
                 // each char in both halves equal
-                same = left.chars().zip(right.chars()).all(|(l, r)| l == r);
+                same = left.bytes().zip(right.bytes()).all(|(l, r)| l == r);
             }
             if same {
                 invalid_id_sum += current;

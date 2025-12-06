@@ -17,7 +17,7 @@ const DIRECTIONS: [(isize, isize); 8] = [
 pub(crate) fn find_accessible_paper_stacks(input: String) {
     let paper_map: Vec<Vec<bool>> = input
         .lines()
-        .map(|l| { l.chars().map(|c| c == '@') }.collect())
+        .map(|l| { l.bytes().map(|c| c == b'@') }.collect())
         .collect();
 
     let mut accessible_stacks = 0;
@@ -47,7 +47,7 @@ pub(crate) fn find_accessible_paper_stacks(input: String) {
 pub(crate) fn remove_accessible_paper_stacks(input: String) {
     let paper_map: Vec<Vec<bool>> = input
         .lines()
-        .map(|l| { l.chars().map(|c| c == '@') }.collect())
+        .map(|l| { l.bytes().map(|c| c == b'@') }.collect())
         .collect();
 
     let mut neighbor_map: HashMap<Position, HashSet<Position>> = HashMap::new();
