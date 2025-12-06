@@ -34,20 +34,20 @@ pub(crate) fn solve_cephalopod_homework(input: String) {
 }
 
 pub(crate) fn solve_cephalopod_homework_properly(input: String) {
-    let rows: Vec<Vec<char>> = input.lines().map(|l| l.chars().collect()).collect();
+    let rows: Vec<&[u8]> = input.lines().map(|l| l.as_bytes()).collect();
 
     let num_cols = rows[0].len();
     let number_row_count = rows.len() - 1;
 
-    let sign_row = &rows[number_row_count];
+    let sign_row = rows[number_row_count];
     let mut sign = sign_row[0];
     let mut multiplication_batch_total = None;
     let mut result_total = 0;
 
     for column in 0..num_cols {
-        let column_number = rows.iter().take(number_row_count).fold(0, |acc, row| {
-            if let Some(val) = row[column].to_digit(10) {
-                acc * 10 + val as u64
+        let column_number = rows.iter().take(number_row_count).fold(0, |acc, &row| {
+            if row[column].is_ascii_digit() {
+                acc * 10 + (row[column] - b'0') as u64
             } else {
                 acc
             }
@@ -60,10 +60,10 @@ pub(crate) fn solve_cephalopod_homework_properly(input: String) {
             continue;
         }
         match sign {
-            '+' => {
+            b'+' => {
                 result_total += column_number;
             }
-            '*' => {
+            b'*' => {
                 if let Some(batch_total) = multiplication_batch_total.as_mut() {
                     *batch_total *= column_number;
                 } else {
