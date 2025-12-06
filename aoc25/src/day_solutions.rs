@@ -23,6 +23,7 @@ pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
         (5, 1) => day05::find_fresh_ingredients(input),
         (5, 2) => day05::find_fresh_ingredient_ids(input),
         (6, 1) => day06::solve_cephalopod_homework(input),
+        (6, 2) => day06::solve_cephalopod_homework_properly(input),
         _ => {
             eprintln!("Day {} part {} is not (yet) implemented.", day, part);
             std::process::exit(1);

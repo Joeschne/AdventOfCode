@@ -33,6 +33,53 @@ pub(crate) fn solve_cephalopod_homework(input: String) {
     println!("{result_total}");
 }
 
+pub(crate) fn solve_cephalopod_homework_properly(input: String) {
+    let rows: Vec<Vec<char>> = input.lines().map(|l| l.chars().collect()).collect();
+
+    let num_cols = rows[0].len();
+    let number_row_count = rows.len() - 1;
+
+    let sign_row = &rows[number_row_count];
+    let mut sign = sign_row[0];
+    let mut multiplication_batch_total = None;
+    let mut result_total = 0;
+
+    for column in 0..num_cols {
+        let column_number = rows.iter().take(number_row_count).fold(0, |acc, row| {
+            if let Some(val) = row[column].to_digit(10) {
+                acc * 10 + val as u64
+            } else {
+                acc
+            }
+        });
+        // no column is ever all zeros
+        if column_number == 0 {
+            sign = sign_row[column + 1];
+            result_total += multiplication_batch_total.unwrap_or(0);
+            multiplication_batch_total = None;
+            continue;
+        }
+        match sign {
+            '+' => {
+                result_total += column_number;
+            }
+            '*' => {
+                if let Some(batch_total) = multiplication_batch_total.as_mut() {
+                    *batch_total *= column_number;
+                } else {
+                    multiplication_batch_total = Some(column_number);
+                }
+            }
+            _ => unreachable!(),
+        }
+    }
+
+    // remaining multiplication
+    result_total += multiplication_batch_total.unwrap_or(0);
+
+    println!("{result_total}");
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,5 +92,10 @@ mod tests {
     #[test]
     fn test_part_1() {
         solve_cephalopod_homework(TEST_INPUT.to_string());
+    }
+
+    #[test]
+    fn test_part_2() {
+        solve_cephalopod_homework_properly(TEST_INPUT.to_string());
     }
 }
