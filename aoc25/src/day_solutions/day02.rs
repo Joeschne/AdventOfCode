@@ -36,7 +36,6 @@ fn next_power_of_10(n: u64) -> u64 {
 
 // part 2
 pub(crate) fn find_more_invalid_ids(input: String) {
-    let start_time = std::time::Instant::now();
     let mut invalid_id_sum = 0;
 
     let ranges = parse_ranges(&input);
@@ -65,7 +64,6 @@ pub(crate) fn find_more_invalid_ids(input: String) {
     }
 
     println!("{}", invalid_id_sum);
-    println!("Execution time: {:?}", start_time.elapsed());
 }
 
 fn parse_ranges(input: &str) -> Vec<(u64, u64)> {

@@ -49,8 +49,6 @@ pub(crate) fn find_fresh_ingredients(input: String) {
 
     let ranges_normalized = normalize_ranges(ranges);
 
-    println!("{:?}", ranges_normalized);
-
     let mut fresh_product_count = 0;
 
     for id in ids {
@@ -84,8 +82,6 @@ pub(crate) fn find_fresh_ingredient_ids(input: String) {
     let ranges = parse_ranges(ranges);
 
     let ranges_normalized = normalize_ranges(ranges);
-
-    println!("{:?}", ranges_normalized);
 
     let mut fresh_product_id_count = 0;
     let mut last_lower = None;
