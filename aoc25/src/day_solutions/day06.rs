@@ -1,34 +1,34 @@
 pub(crate) fn solve_cephalopod_homework(input: String) {
-    let rows: Vec<Vec<&str>> = input
-        .lines()
-        .map(|line| line.split_whitespace().collect())
+    let mut rows: Vec<&str> = input.lines().collect();
+    let sign_row = rows.pop().expect("non-empty input");
+
+    // parse signs once
+    let signs: Vec<u8> = sign_row
+        .split_whitespace()
+        .map(|s| s.as_bytes()[0])
         .collect();
 
-    let num_rows = rows.len();
-    let num_cols = rows[0].len();
+    // initialize all column totals once
+    let mut line_iter = rows.into_iter();
+    let first_row = line_iter.next().expect("at least one numeric row");
 
-    let sign_row = &rows[num_rows - 1];
+    let mut column_totals: Vec<u64> = first_row
+        .split_whitespace()
+        .map(|t| t.parse::<u64>().expect("valid int"))
+        .collect();
 
-    let mut result_total: u64 = 0;
-
-    for column in 0..num_cols {
-        let sign = sign_row[column].as_bytes()[0];
-
-        // initial value
-        let mut column_total = rows[0][column].parse::<u64>().expect("valid int");
-
-        // all rows exclusive first one(initial) and last one (signs)
-        for row in 1..(num_rows - 1) {
-            let val = rows[row][column].parse::<u64>().expect("valid int");
-            match sign {
-                b'+' => column_total += val,
-                b'*' => column_total *= val,
+    for row in line_iter {
+        for (column, val_str) in row.split_whitespace().enumerate() {
+            let val = val_str.parse::<u64>().expect("valid int");
+            match signs[column] {
+                b'+' => column_totals[column] += val,
+                b'*' => column_totals[column] *= val,
                 _ => unreachable!(),
             }
         }
-
-        result_total += column_total;
     }
+
+    let result_total: u64 = column_totals.into_iter().sum();
 
     println!("{result_total}");
 }
