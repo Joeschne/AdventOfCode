@@ -4,6 +4,7 @@ mod day03;
 mod day04;
 mod day05;
 mod day06;
+mod day07;
 
 pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
     let start_time = if time_execution {
@@ -24,6 +25,7 @@ pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
         (5, 2) => day05::find_fresh_ingredient_ids(input),
         (6, 1) => day06::solve_cephalopod_homework(input),
         (6, 2) => day06::solve_cephalopod_homework_properly(input),
+        (7, 1) => day07::count_tachyon_beam_splits(input),
         _ => {
             eprintln!("Day {} part {} is not (yet) implemented.", day, part);
             std::process::exit(1);
