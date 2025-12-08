@@ -29,6 +29,7 @@ pub fn run_day_part(day: usize, part: u8, input: String, time_execution: bool) {
         (7, 1) => day07::count_tachyon_beam_splits(input),
         (7, 2) => day07::count_quantum_tachyon_timelines(input),
         (8, 1) => day08::connect_closest_junction_boxes(input),
+        (8, 2) => day08::create_big_junction_box_circuit(input),
         _ => {
             eprintln!("Day {} part {} is not (yet) implemented.", day, part);
             std::process::exit(1);

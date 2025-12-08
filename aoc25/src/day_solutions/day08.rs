@@ -78,6 +78,39 @@ pub(crate) fn connect_closest_junction_boxes(input: String) {
     println!("{result}");
 }
 
+pub(crate) fn create_big_junction_box_circuit(input: String) {
+    let coordinates = parse_coordinates(input);
+
+    let mut distances = Vec::new();
+
+    for (i, coordinate) in coordinates.iter().enumerate() {
+        for neighbor in &coordinates[i + 1..] {
+            let distance = coordinate.distance(neighbor);
+            distances.push((distance, (coordinate, neighbor)));
+        }
+    }
+
+    distances.sort_by_key(|(distance, _)| *distance);
+
+    let mut connected_boxes = HashSet::new();
+
+    let mut last_inserted = (&coordinates[0], &coordinates[0]);
+
+    for distance in distances {
+        let (_, (box_1, box_2)) = distance;
+        if connected_boxes.contains(box_1) && connected_boxes.contains(box_2) {
+            continue;
+        }
+        connected_boxes.insert(box_1);
+        connected_boxes.insert(box_2);
+        last_inserted = (box_1, box_2);
+    }
+
+    let cable_length = last_inserted.0.x.0 * last_inserted.1.x.0;
+
+    println!("{cable_length}");
+}
+
 fn parse_coordinates(input: String) -> Vec<Coordinate> {
     input
         .lines()
@@ -108,7 +141,7 @@ mod usable_floats {
     use std::{hash::Hash, str::FromStr};
 
     #[derive(PartialEq, PartialOrd, Copy, Clone)]
-    pub(super) struct FloatWrapper(f64);
+    pub(super) struct FloatWrapper(pub f64);
 
     impl FromStr for FloatWrapper {
         type Err = std::num::ParseFloatError;
@@ -181,5 +214,10 @@ mod tests {
     #[test]
     fn test_part_1() {
         connect_closest_junction_boxes(TEST_INPUT.to_string());
+    }
+
+    #[test]
+    fn test_part_2() {
+        create_big_junction_box_circuit(TEST_INPUT.to_string());
     }
 }
